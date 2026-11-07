@@ -6,12 +6,13 @@ import java.util.List;
 
 /**
  * Project Name : OceanFleet
- * Use Case     : UC3 - Retrieve Vessel by Vessel ID
+ * Use Case     : UC4 - Identify High-Performance Vessels
  * Author       : Hemang
  * Date         : 07-11-2026
  *
  * Description:
- * Stores vessel records and retrieves vessels using their IDs.
+ * Stores vessel performance records, retrieves vessels using
+ * their IDs and identifies vessels with the highest average speed.
  */
 
 public class VesselUtil {
@@ -55,5 +56,41 @@ public class VesselUtil {
 
         // Return null if vessel is not found
         return null;
+    }
+
+    // Retrieve all vessels having the highest average speed
+    public List<Vessel> getHighPerformanceVessels() {
+
+        // Create a list to store high-performance vessels
+        List<Vessel> highPerformanceVessels = new ArrayList<>();
+
+        // Return empty list if no vessels are available
+        if (vesselList.isEmpty()) {
+            return highPerformanceVessels;
+        }
+
+        // Initialize highest speed
+        double highestSpeed = Double.NEGATIVE_INFINITY;
+
+        // Find the highest average speed
+        for (Vessel vessel : vesselList) {
+
+            if (vessel.getAverageSpeed() > highestSpeed) {
+                highestSpeed = vessel.getAverageSpeed();
+            }
+        }
+
+        // Collect all vessels having the highest speed
+        for (Vessel vessel : vesselList) {
+
+            if (Double.compare(
+                    vessel.getAverageSpeed(), highestSpeed) == 0) {
+
+                highPerformanceVessels.add(vessel);
+            }
+        }
+
+        // Return all high-performance vessels
+        return highPerformanceVessels;
     }
 }

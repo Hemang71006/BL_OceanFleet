@@ -134,4 +134,119 @@ class VesselUtilTest {
 
         assertNull(result);
     }
+
+    // UC4 - Test retrieving a vessel with the highest speed
+    @Test
+    void testGetHighPerformanceVesselsSingleHighest() {
+
+        VesselUtil vesselUtil = new VesselUtil();
+
+        Vessel vessel1 = new Vessel(
+                "V001", "Sea King", 25.5, "Cargo"
+        );
+
+        Vessel vessel2 = new Vessel(
+                "V002", "Ocean Star", 18.0, "Tanker"
+        );
+
+        Vessel vessel3 = new Vessel(
+                "V003", "Wave Rider", 22.3, "Cruise"
+        );
+
+        vesselUtil.addVesselPerformance(vessel1);
+        vesselUtil.addVesselPerformance(vessel2);
+        vesselUtil.addVesselPerformance(vessel3);
+
+        List<Vessel> result =
+                vesselUtil.getHighPerformanceVessels();
+
+        assertEquals(1, result.size());
+        assertSame(vessel1, result.get(0));
+    }
+
+    // UC4 - Test multiple vessels sharing the highest speed
+    @Test
+    void testGetHighPerformanceVesselsWithTie() {
+
+        VesselUtil vesselUtil = new VesselUtil();
+
+        Vessel vessel1 = new Vessel(
+                "V001", "Sea King", 25.5, "Cargo"
+        );
+
+        Vessel vessel2 = new Vessel(
+                "V002", "Ocean Star", 18.0, "Tanker"
+        );
+
+        Vessel vessel3 = new Vessel(
+                "V003", "Wave Rider", 25.5, "Cruise"
+        );
+
+        vesselUtil.addVesselPerformance(vessel1);
+        vesselUtil.addVesselPerformance(vessel2);
+        vesselUtil.addVesselPerformance(vessel3);
+
+        List<Vessel> result =
+                vesselUtil.getHighPerformanceVessels();
+
+        assertEquals(2, result.size());
+        assertSame(vessel1, result.get(0));
+        assertSame(vessel3, result.get(1));
+    }
+
+    // UC4 - Test that lower-speed vessels are excluded
+    @Test
+    void testLowerSpeedVesselsAreExcluded() {
+
+        VesselUtil vesselUtil = new VesselUtil();
+
+        Vessel vessel1 = new Vessel(
+                "V001", "Sea King", 25.5, "Cargo"
+        );
+
+        Vessel vessel2 = new Vessel(
+                "V002", "Ocean Star", 18.0, "Tanker"
+        );
+
+        vesselUtil.addVesselPerformance(vessel1);
+        vesselUtil.addVesselPerformance(vessel2);
+
+        List<Vessel> result =
+                vesselUtil.getHighPerformanceVessels();
+
+        assertEquals(1, result.size());
+        assertFalse(result.contains(vessel2));
+    }
+
+    // UC4 - Test high-performance result with single vessel
+    @Test
+    void testGetHighPerformanceVesselsWithSingleVessel() {
+
+        VesselUtil vesselUtil = new VesselUtil();
+
+        Vessel vessel = new Vessel(
+                "V001", "Sea King", 25.5, "Cargo"
+        );
+
+        vesselUtil.addVesselPerformance(vessel);
+
+        List<Vessel> result =
+                vesselUtil.getHighPerformanceVessels();
+
+        assertEquals(1, result.size());
+        assertSame(vessel, result.get(0));
+    }
+
+    // UC4 - Test high-performance result with empty list
+    @Test
+    void testGetHighPerformanceVesselsWithEmptyList() {
+
+        VesselUtil vesselUtil = new VesselUtil();
+
+        List<Vessel> result =
+                vesselUtil.getHighPerformanceVessels();
+
+        assertNotNull(result);
+        assertTrue(result.isEmpty());
+    }
 }
