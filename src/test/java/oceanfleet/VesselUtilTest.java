@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class VesselUtilTest {
 
-    // Test whether vessel list is initially empty
+    // UC2 - Test whether vessel list is initially empty
     @Test
     void testInitialVesselListIsEmpty() {
 
@@ -20,7 +20,7 @@ class VesselUtilTest {
         assertTrue(vesselUtil.getVesselList().isEmpty());
     }
 
-    // Test adding a single vessel
+    // UC2 - Test adding a single vessel
     @Test
     void testAddSingleVessel() {
 
@@ -36,7 +36,7 @@ class VesselUtilTest {
         assertSame(vessel, vesselUtil.getVesselList().get(0));
     }
 
-    // Test adding multiple vessels
+    // UC2 - Test adding multiple vessels
     @Test
     void testAddMultipleVessels() {
 
@@ -65,7 +65,7 @@ class VesselUtilTest {
         assertSame(vessel3, vesselUtil.getVesselList().get(2));
     }
 
-    // Test setter method for vessel list
+    // UC2 - Test setter method for vessel list
     @Test
     void testSetVesselList() {
 
@@ -84,5 +84,54 @@ class VesselUtilTest {
         assertSame(vessels, vesselUtil.getVesselList());
         assertEquals(1, vesselUtil.getVesselList().size());
         assertSame(vessel, vesselUtil.getVesselList().get(0));
+    }
+
+    // UC3 - Test retrieving an existing vessel
+    @Test
+    void testGetVesselByIdFound() {
+
+        VesselUtil vesselUtil = new VesselUtil();
+
+        Vessel vessel = new Vessel(
+                "V001", "Sea King", 25.5, "Cargo"
+        );
+
+        vesselUtil.addVesselPerformance(vessel);
+
+        Vessel result = vesselUtil.getVesselById("V001");
+
+        assertNotNull(result);
+        assertSame(vessel, result);
+        assertEquals("Sea King", result.getVesselName());
+    }
+
+    // UC3 - Test retrieving a vessel that does not exist
+    @Test
+    void testGetVesselByIdNotFound() {
+
+        VesselUtil vesselUtil = new VesselUtil();
+
+        vesselUtil.addVesselPerformance(
+                new Vessel("V001", "Sea King", 25.5, "Cargo")
+        );
+
+        Vessel result = vesselUtil.getVesselById("V004");
+
+        assertNull(result);
+    }
+
+    // UC3 - Test case-sensitive vessel ID search
+    @Test
+    void testGetVesselByIdCaseSensitive() {
+
+        VesselUtil vesselUtil = new VesselUtil();
+
+        vesselUtil.addVesselPerformance(
+                new Vessel("V001", "Sea King", 25.5, "Cargo")
+        );
+
+        Vessel result = vesselUtil.getVesselById("v001");
+
+        assertNull(result);
     }
 }

@@ -6,12 +6,12 @@ import java.util.List;
 
 /**
  * Project Name : OceanFleet
- * Use Case     : UC2 - Store Vessel Records Using List
+ * Use Case     : UC3 - Retrieve Vessel by Vessel ID
  * Author       : Hemang
  * Date         : 07-11-2026
  *
  * Description:
- * Stores and manages vessel performance records using a List.
+ * Stores vessel records and retrieves vessels using their IDs.
  */
 
 public class VesselUtil {
@@ -37,5 +37,23 @@ public class VesselUtil {
     // Add a new vessel performance record
     public void addVesselPerformance(Vessel vessel) {
         vesselList.add(vessel);
+    }
+
+    // Retrieve vessel details using vessel ID
+    public Vessel getVesselById(String vesselId) {
+
+        // Search for the vessel in the list
+        for (Vessel vessel : vesselList) {
+
+            // Compare vessel IDs (case-sensitive)
+            if (vesselId != null
+                    && vesselId.equals(vessel.getVesselId())) {
+
+                return vessel;
+            }
+        }
+
+        // Return null if vessel is not found
+        return null;
     }
 }
