@@ -1,0 +1,11 @@
+@"
+# Java compiled files
+*.class
+
+# IntelliJ IDEA
+.idea/
+*.iml
+
+# Maven build output
+target/
+"@ | Set-Content .gitignore
